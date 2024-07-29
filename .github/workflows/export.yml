@@ -9,14 +9,18 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v3.3.0
+      
     - name: Godot Export
+      id: export
       uses: firebelley/godot-export@v5.2.1
       with:
         godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.2.2-stable/Godot_v4.2.2-stable_linux.x86_32.zip
         godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.2.2-stable/Godot_v4.2.2-stable_export_templates.tpz
-        relative_project_path: MartianMike
+        relative_project_path: ./MartianMike
+        relative_export_path: ./MartianMike
         archive_output: true
         cache: true
+        
     - uses: actions/upload-artifact@v4
       name: Upload raw
       with:
@@ -30,5 +34,4 @@ jobs:
         name: Archives
         path: ${{ steps.export.outputs.archive_directory }}/*
         if-no-files-found: error
-              
-            
+        
