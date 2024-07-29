@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://dgghmlgmjcxex"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_d8haa"]
+[ext_resource type="Texture2D" uid="uid://cv1wefnyxqtq1" path="res://assets/Charakter.png" id="1_ucchk"]
+[ext_resource type="PackedScene" uid="uid://dimnl7nai712s" path="res://scenes/countdown.tscn" id="3_u5lmk"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_glfkg"]
+radius = 3.0
+height = 16.0
+
+[node name="Player" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_d8haa")
+SPEED = 60.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_glfkg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(-1, 1)
+texture = ExtResource("1_ucchk")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(9.095, 9.095)
+
+[node name="WinLabel" type="Label" parent="."]
+visible = false
+offset_left = -39.0
+offset_top = -11.0
+offset_right = 39.0
+offset_bottom = 12.0
+text = "You Won!!"
+
+[node name="Countdown" parent="." instance=ExtResource("3_u5lmk")]
+position = Vector2(52, -25)
