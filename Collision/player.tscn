@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://8c8hxvsb0soh"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_qgdl8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_awl4v"]
+size = Vector3(1, 1.77201, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_nevbj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_525p8"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ygqh5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1wsif"]
+albedo_color = Color(0, 0.101961, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kk4f6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n2rjm"]
+albedo_color = Color(1, 0, 0, 1)
+
+[node name="Player" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.66863, 0)
+max_contacts_reported = 500
+contact_monitor = true
+script = ExtResource("1_qgdl8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.871357, 0, 0, 0, 1, 0, -0.851113, 0.193715)
+shape = SubResource("BoxShape3D_awl4v")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, -0.385208, 0.227283)
+mesh = SubResource("SphereMesh_nevbj")
+surface_material_override/0 = SubResource("StandardMaterial3D_525p8")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.987617, -0.0784413, 0, 0.156883, 0.493809, 0, -1.12589, 0.0784511)
+mesh = SubResource("BoxMesh_ygqh5")
+surface_material_override/0 = SubResource("StandardMaterial3D_1wsif")
+
+[node name="Ski1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.153625, 0, 0, 0, 0.0733127, 0, 0, 0, 1, -0.153, -1.628, 0.187)
+mesh = SubResource("BoxMesh_kk4f6")
+surface_material_override/0 = SubResource("StandardMaterial3D_n2rjm")
+
+[node name="Ski2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.153625, 1.59539e-05, -0.000143174, -3.34215e-05, 0.0733127, 0.000371591, 2.20095e-05, -2.72397e-05, 1, 0.170521, -1.62828, 0.1866)
+mesh = SubResource("BoxMesh_kk4f6")
+surface_material_override/0 = SubResource("StandardMaterial3D_n2rjm")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, -5.32907e-15, -8.74228e-08, -3.65588e-08, 0.908362, 0.418184, 7.94116e-08, 0.418184, -0.908362, 0, 1.52698, -3.66289)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

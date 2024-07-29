@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpqnh3jq2qr5k"]
+
+[ext_resource type="Texture2D" uid="uid://kkas1amrl6j4" path="res://assets/character/Beastmaster_idle.png" id="1_cuo23"]
+[ext_resource type="Script" path="res://scenes/player.gd" id="1_i0qkh"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8u5ni"]
+radius = 13.0
+height = 34.0
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_i0qkh")
+JUMP_VELOCITY = -400.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_8u5ni")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_cuo23")
+hframes = 4
+vframes = 4
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+
+[node name="FrameTimer" type="Timer" parent="."]
+wait_time = 0.25
+autostart = true
+
+[connection signal="timeout" from="FrameTimer" to="." method="_on_frame_timer_timeout"]

@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://d3ja7v2sragcs"]
+
+[ext_resource type="Texture2D" uid="uid://bb74mmf3rdg4r" path="res://assets/objects/Chest_01_Locked.png" id="1_7ymlx"]
+[ext_resource type="Script" path="res://scripts/chest.gd" id="1_gesgd"]
+[ext_resource type="Texture2D" uid="uid://ctvthkqtgqmgm" path="res://assets/objects/Chest_01_Unlocked.png" id="2_e66yd"]
+[ext_resource type="PackedScene" uid="uid://oeqknb2r0c4k" path="res://scenes/objects/interactable.tscn" id="4_qy1ts"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7pfa4"]
+size = Vector2(74, 59)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yk1rx"]
+radius = 59.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rkegn"]
+properties/0/path = NodePath(".:is_locked")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[node name="Chest" type="Node2D"]
+script = ExtResource("1_gesgd")
+
+[node name="ChestLocked" type="Sprite2D" parent="."]
+position = Vector2(3.8, -40.2)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("1_7ymlx")
+
+[node name="ChestUnlocked" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(3.8, -40.2)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("2_e66yd")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -29.5)
+shape = SubResource("RectangleShape2D_7pfa4")
+
+[node name="Interactable" parent="." instance=ExtResource("4_qy1ts")]
+
+[node name="CollisionShape2D" parent="Interactable" index="0"]
+position = Vector2(0, -30)
+shape = SubResource("CircleShape2D_yk1rx")
+
+[node name="KeySpawn" type="Marker2D" parent="."]
+position = Vector2(0, -80)
+
+[node name="ChestSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_rkegn")
+
+[node name="KeySpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scenes/objects/key.tscn")
+spawn_path = NodePath("../KeySpawn")
+spawn_limit = 1
+
+[connection signal="interacted" from="Interactable" to="." method="_on_interactable_interacted"]
+[connection signal="delta_synchronized" from="ChestSynchronizer" to="." method="_on_chest_synchronizer_delta_synchronized"]
+
+[editable path="Interactable"]

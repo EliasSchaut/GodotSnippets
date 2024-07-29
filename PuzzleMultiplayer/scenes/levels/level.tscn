@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://dmqnnrrg5wbcx"]
+
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_adx0y"]
+[ext_resource type="PackedScene" uid="uid://dv4tdb8s05owt" path="res://scenes/tile_map.tscn" id="1_thc5r"]
+[ext_resource type="PackedScene" uid="uid://ymu7kmv8a31e" path="res://bg.tscn" id="2_hfoiv"]
+[ext_resource type="PackedScene" uid="uid://22gamdakaxrn" path="res://scenes/objects/pressure_plate.tscn" id="4_m7dl1"]
+[ext_resource type="PackedScene" uid="uid://cpvjm6e1fvbdu" path="res://scenes/objects/door.tscn" id="5_g80ox"]
+[ext_resource type="PackedScene" uid="uid://d3ja7v2sragcs" path="res://scenes/objects/chest.tscn" id="6_emu4l"]
+[ext_resource type="PackedScene" uid="uid://bm2orke4mlffl" path="res://scenes/objects/key_door.tscn" id="7_7nwcq"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_adx0y")
+
+[node name="Environment" type="Node" parent="."]
+
+[node name="PressurePlate" parent="Environment" instance=ExtResource("4_m7dl1")]
+position = Vector2(196, 1)
+
+[node name="Door" parent="Environment" instance=ExtResource("5_g80ox")]
+position = Vector2(329, 4)
+
+[node name="Chest" parent="Environment" instance=ExtResource("6_emu4l")]
+position = Vector2(537, 1)
+scale = Vector2(-1, 1)
+
+[node name="TileMap" parent="Environment" instance=ExtResource("1_thc5r")]
+layer_0/tile_data = PackedInt32Array(131084, 65537, 1, 65548, 65537, 1, 12, 196609, 2, 131083, 65537, 1, 65547, 65537, 1, 11, 131073, 2, 131082, 65537, 1, 65546, 65537, 1, 10, 131073, 2, 131081, 65537, 1, 65545, 65537, 1, 9, 131073, 2, 131080, 65537, 1, 65544, 65537, 1, 8, 131073, 2, 131079, 65537, 1, 65543, 65537, 1, 7, 131073, 2, 131078, 65537, 1, 65542, 65537, 1, 6, 131073, 2, 131077, 65537, 1, 65541, 65537, 1, 5, 131073, 2, 131076, 65537, 1, 65540, 65537, 1, 4, 131073, 2, 131075, 65537, 1, 65539, 65537, 1, 3, 131073, 2, 131074, 65537, 1, 65538, 65537, 1, 2, 131073, 2, 131073, 65537, 1, 65537, 65537, 1, 1, 131073, 2, 131072, 65537, 1, 65536, 65537, 1, 0, 131073, 2, 196607, 65537, 1, 131071, 65537, 1, 65535, 65537, 2, 196606, 65537, 1, 131070, 65537, 1, 65534, 131073, 1, 196605, 1, 2, 131069, 1, 2, 65533, 1, 2, -2, 1, 3, -65538, 1, 3, -131074, 1, 3, -196610, 1, 3, -262146, 1, 3, -3, 1, 2, -65539, 1, 2, -131075, 1, 2, -196611, 1, 2, -262147, 1, 2, -327682, 1, 3, -393218, 1, 3, -458754, 196609, 1, -327683, 1, 2, -393219, 1, 2, -458755, 196609, 0, 131086, 1, 3, 65550, 1, 3, 14, 1, 3, -65522, 1, 3, -131058, 1, 3, -196594, 1, 3, -262130, 1, 3, -327666, 1, 3, -393202, 1, 3, -458738, 1, 3, -524274, 196609, 1, 131085, 65537, 1, 65549, 65537, 1, 13, 1, 1, -65523, 1, 2, -131059, 1, 2, -196595, 1, 2, -262131, 1, 2, -327667, 1, 2, -393203, 1, 2, -458739, 1, 2, -524275, 196609, 0)
+
+[node name="BG" parent="Environment" instance=ExtResource("2_hfoiv")]
+
+[node name="Players" type="Node" parent="."]
+
+[node name="PlayersContainer" type="Node2D" parent="Players"]
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Players"]
+_spawnable_scenes = PackedStringArray("res://scenes/player.tscn")
+spawn_path = NodePath("../PlayersContainer")
+
+[node name="SpawnPoint1" type="Marker2D" parent="Players"]
+position = Vector2(-37, -65)
+
+[node name="SpawnPoint2" type="Marker2D" parent="Players"]
+position = Vector2(94, -64)
+
+[node name="KeyDoor" parent="." instance=ExtResource("7_7nwcq")]
+position = Vector2(992, 1)
+
+[connection signal="toggle" from="Environment/PressurePlate" to="Environment/Door" method="activate"]

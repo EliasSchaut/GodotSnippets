@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://dkp8eae8o5oyn"]
+
+[ext_resource type="Script" path="res://scripts/key.gd" id="1_puew5"]
+[ext_resource type="Texture2D" uid="uid://d1tvhhykcnhqj" path="res://assets/objects/Key_01.png" id="2_4kc2x"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5r4d0"]
+radius = 31.0644
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jmoi8"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Key" type="Node2D"]
+script = ExtResource("1_puew5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_4kc2x")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 34
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_5r4d0")
+
+[node name="KeySynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_jmoi8")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_key_player_entered"]

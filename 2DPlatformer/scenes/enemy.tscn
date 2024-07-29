@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1k420bmxfam8"]
+
+[ext_resource type="Script" path="res://scenes/enemy.gd" id="1_hvuxf"]
+[ext_resource type="Texture2D" uid="uid://broo5mc20qpxr" path="res://assets/enemies/bee.png" id="2_lht4o"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f3x7q"]
+radius = 4.0
+height = 10.0
+
+[node name="Enemy" type="Area2D"]
+script = ExtResource("1_hvuxf")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_f3x7q")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -5)
+texture = ExtResource("2_lht4o")
+hframes = 3
+vframes = 4
+
+[node name="FrameTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="FrameTimer" to="." method="_on_frame_timer_timeout"]

@@ -1,0 +1,105 @@
+[gd_scene load_steps=6 format=3 uid="uid://cwwgvnq7umiyh"]
+
+[ext_resource type="Texture2D" uid="uid://bja0wl8tcw71c" path="res://assets/backgrounds/background_01.png" id="1_34g1t"]
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_e0gyx"]
+[ext_resource type="PackedScene" uid="uid://dmqnnrrg5wbcx" path="res://scenes/levels/level.tscn" id="2_4c54x"]
+[ext_resource type="Texture2D" uid="uid://bujx43rcy5b85" path="res://assets/backgrounds/background_02.png" id="2_n6du5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_x8j6j"]
+font_size = 64
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[node name="MainMenu" type="Node"]
+script = ExtResource("1_e0gyx")
+level_scene = ExtResource("2_4c54x")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BGTrees" type="TextureRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_34g1t")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="BGHouses" type="TextureRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_n6du5")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -26.0
+offset_bottom = 87.0
+grow_horizontal = 2
+theme_override_constants/separation = 10
+
+[node name="HostButton" type="Button" parent="UI/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="UI/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "Join
+"
+
+[node name="StartButton" type="Button" parent="UI/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "Start"
+
+[node name="IPEdit" type="LineEdit" parent="UI/HBoxContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "127.0.0.1"
+placeholder_text = "Enter IP Address"
+
+[node name="Status" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_x8j6j")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Level" type="Node" parent="."]
+
+[node name="LevelSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scenes/levels/level.tscn")
+spawn_path = NodePath("../Level")
+spawn_limit = 1
+
+[connection signal="pressed" from="UI/HBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="UI/HBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="UI/HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
